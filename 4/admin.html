@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05070a"
+    >
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Ummar Farooq — Command Center</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <style>
+        :root {
+            --bg: #05070a;
+            --panel: rgba(255,255,255,.045);
+            --panel-strong: rgba(255,255,255,.075);
+            --text: #fff;
+            --muted: #83909d;
+            --line: rgba(255,255,255,.1);
+            --accent: #00bfff;
+            --accent-bright: #4bddff;
+            --success: #00ff9d;
+            --danger: #ff496d;
+            --warning: #ffd166;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 50% -10%,
+                    rgba(0,191,255,.09),
+                    transparent 35%
+                ),
+                var(--bg);
+
+            color: var(--text);
+
+            font-family:
+                "Inter",
+                system-ui,
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 60px 60px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent
+                );
+
+            z-index: -1;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* HEADER */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            border-bottom:
+                1px solid var(--line);
+
+            background:
+                rgba(5,7,10,.78);
+
+            backdrop-filter:
+                blur(24px);
+        }
+
+        .header-inner {
+            width:
+                min(
+                    calc(100% - 40px),
+                    1500px
+                );
+
+            min-height: 76px;
+
+            margin-inline: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: grid;
+            place-items: center;
+
+            border:
+                1px solid rgba(0,191,255,.35);
+
+            border-radius: 12px;
+
+            color: var(--accent-bright);
+
+            background:
+                rgba(0,191,255,.06);
+
+            box-shadow:
+                0 0 25px rgba(0,191,255,.1);
+
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .brand-copy {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-copy strong {
+            font-size: 13px;
+            letter-spacing: .15em;
+        }
+
+        .brand-copy span {
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: .2em;
+        }
+
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--success);
+
+            font-size: 8px;
+            font-weight: 900;
+
+            letter-spacing: .13em;
+        }
+
+        .admin-action {
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--panel);
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .login-gate {
+            width: min(calc(100% - 40px), 440px);
+            margin: 12vh auto;
+            padding: 32px;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            background: var(--panel);
+        }
+
+        .login-gate h1 { margin-bottom: 10px; }
+        .login-gate p, .login-status { color: var(--muted); line-height: 1.6; }
+        .login-gate label { display: block; margin-top: 16px; color: var(--muted); font-size: 12px; }
+        .login-gate input { width: 100%; margin-top: 7px; padding: 13px; color: var(--text); background: #0a1017; border: 1px solid var(--line); border-radius: 9px; }
+        .login-gate button { margin-top: 18px; padding: 12px 16px; border: 0; border-radius: 9px; color: #001018; background: var(--accent-bright); font-weight: 800; }
+        .login-status { margin-top: 14px; }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background:
+                var(--success);
+
+            box-shadow:
+                0 0 13px
+                var(--success);
+
+            animation:
+                pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: .4;
+                transform: scale(.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* MAIN */
+
+        .container {
+            width:
+                min(
+                    calc(100% - 40px),
+                    1500px
+                );
+
+            margin-inline: auto;
+        }
+
+        .hero {
+            padding: 65px 0 35px;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: .3em;
+        }
+
+        .hero h1 {
+            margin-top: 12px;
+
+            font-size:
+                clamp(42px,7vw,90px);
+
+            line-height: .9;
+
+            font-weight: 900;
+
+            letter-spacing:
+                -.07em;
+        }
+
+        .hero h1 span {
+            color: transparent;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #fff,
+                    var(--accent-bright),
+                    var(--accent)
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            max-width: 720px;
+
+            margin-top: 20px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* METRICS */
+
+        .metrics {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0,1fr));
+
+            gap: 10px;
+
+            margin-top: 35px;
+        }
+
+        .metric {
+            position: relative;
+
+            padding: 20px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.015)
+                );
+
+            overflow: hidden;
+        }
+
+        .metric::after {
+            content: "";
+
+            position: absolute;
+
+            right: -35px;
+            bottom: -35px;
+
+            width: 100px;
+            height: 100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(0,191,255,.08);
+
+            filter: blur(15px);
+        }
+
+        .metric-label {
+            color: var(--muted);
+
+            font-size: 7px;
+            font-weight: 900;
+
+            letter-spacing: .14em;
+        }
+
+        .metric-value {
+            display: block;
+
+            margin-top: 10px;
+
+            color: var(--accent-bright);
+
+            font-size: 32px;
+            font-weight: 900;
+
+            letter-spacing: -.05em;
+        }
+
+        /* TOOLBAR */
+
+        .toolbar {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+
+            margin-top: 25px;
+        }
+
+        .search {
+            position: relative;
+
+            flex: 1;
+
+            max-width: 520px;
+        }
+
+        .search i {
+            position: absolute;
+
+            top: 50%;
+            left: 14px;
+
+            transform:
+                translateY(-50%);
+
+            color:
+                var(--muted);
+
+            font-size: 11px;
+        }
+
+        .search input {
+            width: 100%;
+
+            height: 45px;
+
+            padding:
+                0 15px 0 39px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background:
+                rgba(255,255,255,.03);
+
+            color: var(--text);
+
+            font-size: 10px;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .search input:focus {
+            border-color:
+                rgba(0,191,255,.4);
+
+            box-shadow:
+                0 0 25px
+                rgba(0,191,255,.06);
+        }
+
+        .refresh-btn {
+            height: 45px;
+
+            padding:
+                0 15px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,.03);
+
+            color:
+                var(--text-soft);
+
+            font-size: 8px;
+            font-weight: 900;
+
+            letter-spacing: .08em;
+
+            transition:
+                .2s ease;
+        }
+
+        .refresh-btn:hover {
+            color:
+                var(--accent-bright);
+
+            border-color:
+                rgba(0,191,255,.3);
+        }
+
+        .refresh-btn.loading i {
+            animation:
+                spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TABLE */
+
+        .messages-panel {
+            margin-top: 18px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            padding:
+                16px 18px;
+
+            border-bottom:
+                1px solid var(--line);
+        }
+
+        .panel-title {
+            color:
+                var(--text-soft);
+
+            font-size:
+                8px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .15em;
+        }
+
+        .panel-status {
+            color:
+                var(--success);
+
+            font-size:
+                7px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .1em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                900px;
+        }
+
+        th {
+            padding:
+                13px 16px;
+
+            border-bottom:
+                1px solid var(--line);
+
+            color:
+                var(--text-faint);
+
+            font-size:
+                6px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .14em;
+
+            text-align:
+                left;
+        }
+
+        td {
+            padding:
+                16px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.045);
+
+            color:
+                var(--text-muted);
+
+            font-size:
+                10px;
+
+            vertical-align:
+                top;
+        }
+
+        tbody tr {
+            transition:
+                background .2s ease;
+        }
+
+        tbody tr:hover {
+            background:
+                rgba(0,191,255,.035);
+        }
+
+        .name-cell strong {
+            display: block;
+
+            color:
+                var(--text-soft);
+
+            font-size:
+                10px;
+        }
+
+        .email {
+            margin-top:
+                4px;
+
+            color:
+                var(--accent-bright);
+
+            font-size:
+                8px;
+        }
+
+        .subject {
+            color:
+                var(--text-soft);
+
+            font-weight:
+                700;
+        }
+
+        .message-preview {
+            max-width:
+                360px;
+
+            display:
+                -webkit-box;
+
+            -webkit-line-clamp: 3;
+
+            -webkit-box-orient:
+                vertical;
+
+            overflow:
+                hidden;
+
+            line-height:
+                1.6;
+        }
+
+        .time {
+            white-space:
+                nowrap;
+        }
+
+        .action-btn {
+            width:
+                32px;
+
+            height:
+                32px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                8px;
+
+            background:
+                rgba(255,255,255,.025);
+
+            color:
+                var(--text-muted);
+
+            transition:
+                .2s ease;
+        }
+
+        .action-btn:hover {
+            color:
+                var(--accent-bright);
+
+            border-color:
+                rgba(0,191,255,.3);
+        }
+
+        /* EMPTY / ERROR */
+
+        .empty {
+            padding:
+                80px 20px;
+
+            text-align:
+                center;
+
+            color:
+                var(--text-muted);
+        }
+
+        .empty i {
+            display:
+                block;
+
+            margin-bottom:
+                14px;
+
+            color:
+                var(--accent);
+
+            font-size:
+                28px;
+        }
+
+        .empty strong {
+            display:
+                block;
+
+            color:
+                var(--text-soft);
+
+            font-size:
+                14px;
+        }
+
+        .empty span {
+            display:
+                block;
+
+            margin-top:
+                7px;
+
+            font-size:
+                9px;
+        }
+
+        /* MODAL */
+
+        .modal {
+            position:
+                fixed;
+
+            inset:
+                0;
+
+            z-index:
+                999;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            padding:
+                20px;
+
+            background:
+                rgba(0,0,0,.72);
+
+            backdrop-filter:
+                blur(15px);
+
+            opacity:
+                0;
+
+            visibility:
+                hidden;
+
+            transition:
+                .3s ease;
+        }
+
+        .modal.open {
+            opacity:
+                1;
+
+            visibility:
+                visible;
+        }
+
+        .modal-card {
+            width:
+                min(700px, 100%);
+
+            max-height:
+                85vh;
+
+            overflow:
+                auto;
+
+            padding:
+                23px;
+
+            border:
+                1px solid var(--line-strong);
+
+            border-radius:
+                20px;
+
+            background:
+                #080d12;
+
+            box-shadow:
+                0 30px 100px
+                rgba(0,0,0,.5);
+        }
+
+        .modal-header {
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            padding-bottom:
+                16px;
+
+            border-bottom:
+                1px solid var(--line);
+        }
+
+        .modal-header h2 {
+            font-size:
+                22px;
+
+            font-weight:
+                900;
+        }
+
+        .close-btn {
+            width:
+                35px;
+
+            height:
+                35px;
+
+            display:
+                grid;
+
+            place-items:
+                center;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                9px;
+
+            background:
+                rgba(255,255,255,.03);
+
+            color:
+                var(--text-muted);
+        }
+
+        .detail-grid {
+            display:
+                grid;
+
+            gap:
+                12px;
+
+            margin-top:
+                20px;
+        }
+
+        .detail {
+            padding:
+                13px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(255,255,255,.025);
+        }
+
+        .detail-label {
+            display:
+                block;
+
+            color:
+                var(--text-faint);
+
+            font-size:
+                6px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .13em;
+        }
+
+        .detail-value {
+            margin-top:
+                6px;
+
+            color:
+                var(--text-soft);
+
+            font-size:
+                11px;
+
+            line-height:
+                1.7;
+
+            overflow-wrap:
+                anywhere;
+        }
+
+        .footer {
+            padding:
+                40px 0 30px;
+
+            color:
+                var(--text-faint);
+
+            font-size:
+                6px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .15em;
+
+            text-align:
+                center;
+        }
+
+        @media (max-width: 850px) {
+
+            .metrics {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .header-status {
+                display:
+                    none;
+            }
+
+            .toolbar {
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+            }
+
+            .search {
+                max-width:
+                    none;
+            }
+
+        }
+
+        @media (max-width: 520px) {
+
+            .container,
+            .header-inner {
+                width:
+                    calc(100% - 24px);
+            }
+
+            .brand-copy {
+                display:
+                    none;
+            }
+
+            .metrics {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .hero {
+                padding-top:
+                    45px;
+            }
+
+            .hero h1 {
+                font-size:
+                    46px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                UF
+            </div>
+
+            <div class="brand-copy">
+                <strong>UMMAR FAROOQ</strong>
+                <span>PRIVATE COMMAND CENTER</span>
+            </div>
+
+        </div>
+
+        <div class="header-status">
+            <span class="status-dot"></span>
+            SECURE SYSTEM ONLINE
+        </div>
+
+        <button id="logout-button" class="admin-action" type="button" hidden>Sign out</button>
+
+    </div>
+
+</header>
+
+<section id="login-gate" class="login-gate" hidden>
+    <h1>Admin sign in</h1>
+    <p>Sign in to securely view portfolio contact messages.</p>
+    <form id="login-form">
+        <label for="admin-username">Username</label>
+        <input id="admin-username" name="username" autocomplete="username" required>
+        <label for="admin-password">Password</label>
+        <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Sign in</button>
+        <p id="login-status" class="login-status" role="status" aria-live="polite"></p>
+    </form>
+</section>
+
+
+<main id="admin-dashboard" class="container" hidden>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <span class="eyebrow">
+            DIGITAL CORE / ADMINISTRATOR
+        </span>
+
+        <h1>
+            MESSAGE
+            <span>COMMAND.</span>
+        </h1>
+
+        <p>
+            Centralized control interface for monitoring
+            contact transmissions received through the
+            Ummar Farooq portfolio system.
+        </p>
+
+
+        <!-- METRICS -->
+
+        <div class="metrics">
+
+            <article class="metric">
+
+                <span class="metric-label">
+                    TOTAL MESSAGES
+                </span>
+
+                <strong
+                    id="total-messages"
+                    class="metric-value"
+                >
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="metric">
+
+                <span class="metric-label">
+                    SYSTEM STATUS
+                </span>
+
+                <strong
+                    id="system-status"
+                    class="metric-value"
+                >
+                    --
+                </strong>
+
+            </article>
+
+
+            <article class="metric">
+
+                <span class="metric-label">
+                    LAST TRANSMISSION
+                </span>
+
+                <strong
+                    id="last-transmission"
+                    class="metric-value"
+                    style="font-size:18px"
+                >
+                    --
+                </strong>
+
+            </article>
+
+
+            <article class="metric">
+
+                <span class="metric-label">
+                    DATABASE
+                </span>
+
+                <strong
+                    class="metric-value"
+                    style="font-size:18px"
+                >
+                    JSON
+                </strong>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- TOOLBAR -->
+
+    <section class="toolbar">
+
+        <div class="search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                id="search-input"
+                type="search"
+                placeholder="Search messages, names, email or subjects..."
+            >
+
+        </div>
+
+
+        <button
+            id="refresh-button"
+            class="refresh-btn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-rotate"></i>
+
+            REFRESH
+
+        </button>
+
+    </section>
+
+
+    <!-- MESSAGES -->
+
+    <section class="messages-panel">
+
+        <div class="panel-header">
+
+            <span class="panel-title">
+                INCOMING TRANSMISSIONS
+            </span>
+
+            <span
+                id="panel-status"
+                class="panel-status"
+            >
+                CONNECTING
+            </span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            ORIGIN
+                        </th>
+
+                        <th>
+                            SUBJECT
+                        </th>
+
+                        <th>
+                            MESSAGE
+                        </th>
+
+                        <th>
+                            TIMESTAMP
+                        </th>
+
+                        <th>
+                            ACTION
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="messages-body">
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty">
+
+                                <i class="fa-solid fa-satellite-dish"></i>
+
+                                <strong>
+                                    Establishing secure connection...
+                                </strong>
+
+                                <span>
+                                    Querying local message store
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="footer">
+
+    UMMAR FAROOQ / DIGITAL COMMAND CENTER /
+    LOCAL DATA STORAGE
+
+</footer>
+
+
+<!-- MESSAGE MODAL -->
+
+<div
+    id="message-modal"
+    class="modal"
+    aria-hidden="true"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2>
+                Transmission Details
+            </h2>
+
+            <button
+                id="close-modal"
+                class="close-btn"
+                type="button"
+                aria-label="Close"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div
+            id="modal-content"
+            class="detail-grid"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<script>
+"use strict";
+
+/* ============================================================
+   CONFIG
+   ============================================================ */
+
+const API_URL = "/api/admin/messages";
+const loginGate = document.getElementById("login-gate");
+const dashboard = document.getElementById("admin-dashboard");
+const loginForm = document.getElementById("login-form");
+const loginStatus = document.getElementById("login-status");
+const logoutButton = document.getElementById("logout-button");
+
+function showDashboard(isSignedIn) {
+    dashboard.hidden = !isSignedIn;
+    loginGate.hidden = isSignedIn;
+    logoutButton.hidden = !isSignedIn;
+}
+
+async function checkAdminSession() {
+    try {
+        const response = await fetch("/api/admin/session", { cache: "no-store", credentials: "same-origin" });
+        showDashboard(response.ok);
+        if (response.ok) loadMessages();
+        else loginStatus.textContent = "Sign in to continue.";
+    } catch {
+        showDashboard(false);
+        loginStatus.textContent = "Could not reach the server.";
+    }
+}
+
+loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    loginStatus.textContent = "Signing in…";
+    const fields = new FormData(loginForm);
+    try {
+        const response = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({ username: fields.get("username"), password: fields.get("password") })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || "Sign-in failed.");
+        loginForm.reset();
+        loginStatus.textContent = "";
+        showDashboard(true);
+        loadMessages();
+    } catch (error) {
+        loginStatus.textContent = error.message;
+    }
+});
+
+logoutButton.addEventListener("click", async () => {
+    await fetch("/api/admin/logout", { method: "POST", credentials: "same-origin" });
+    messages = [];
+    showDashboard(false);
+    loginStatus.textContent = "You have been signed out.";
+});
+
+
+/* ============================================================
+   DOM
+   ============================================================ */
+
+const messagesBody =
+    document.getElementById(
+        "messages-body"
+    );
+
+const searchInput =
+    document.getElementById(
+        "search-input"
+    );
+
+const refreshButton =
+    document.getElementById(
+        "refresh-button"
+    );
+
+const totalMessages =
+    document.getElementById(
+        "total-messages"
+    );
+
+const systemStatus =
+    document.getElementById(
+        "system-status"
+    );
+
+const lastTransmission =
+    document.getElementById(
+        "last-transmission"
+    );
+
+const panelStatus =
+    document.getElementById(
+        "panel-status"
+    );
+
+const modal =
+    document.getElementById(
+        "message-modal"
+    );
+
+const modalContent =
+    document.getElementById(
+        "modal-content"
+    );
+
+const closeModal =
+    document.getElementById(
+        "close-modal"
+    );
+
+
+/* ============================================================
+   STATE
+   ============================================================ */
+
+let messages = [];
+
+
+/* ============================================================
+   ESCAPE HTML
+   ============================================================ */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/* ============================================================
+   FORMAT DATE
+   ============================================================ */
+
+function formatDate(value) {
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return "--";
+    }
+
+    return date.toLocaleString(
+        undefined,
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+/* ============================================================
+   LOAD MESSAGES
+   ============================================================ */
+
+async function loadMessages() {
+
+    if (dashboard.hidden) return;
+
+    refreshButton.classList.add(
+        "loading"
+    );
+
+    panelStatus.textContent =
+        "CONNECTING";
+
+    panelStatus.style.color =
+        "var(--warning)";
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    headers: {
+                        Accept:
+                            "application/json"
+                    },
+
+                    cache: "no-store",
+                    credentials: "same-origin"
+                }
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            !data ||
+            !Array.isArray(
+                data.messages
+            )
+        ) {
+            throw new Error(
+                "Invalid server response."
+            );
+        }
+
+        messages =
+            data.messages;
+
+        renderMessages(
+            messages
+        );
+
+        updateMetrics();
+
+        panelStatus.textContent =
+            "SYSTEM ONLINE";
+
+        panelStatus.style.color =
+            "var(--success)";
+
+        systemStatus.textContent =
+            "ONLINE";
+
+    } catch (error) {
+
+        console.error(
+            "Message loading error:",
+            error
+        );
+
+        messages = [];
+
+        if (error.message.includes("HTTP 401")) {
+            showDashboard(false);
+            loginStatus.textContent = "Your session expired. Sign in again.";
+            return;
+        }
+        const isForbidden = error.message.includes("HTTP 410");
+        messagesBody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <strong>${isForbidden ? "Admin endpoint unavailable" : "Connection failed"}</strong>
+                        <span>
+                            ${isForbidden ? "This dashboard needs authenticated access before messages can be viewed." : "Make sure server.js is running on the backend."}
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        totalMessages.textContent =
+            "0";
+
+        systemStatus.textContent =
+            "OFFLINE";
+
+        lastTransmission.textContent =
+            "--";
+
+        panelStatus.textContent =
+            "CONNECTION FAILED";
+
+        panelStatus.style.color =
+            "var(--danger)";
+
+    } finally {
+
+        refreshButton.classList.remove(
+            "loading"
+        );
+    }
+}
+
+
+/* ============================================================
+   RENDER MESSAGES
+   ============================================================ */
+
+function renderMessages(
+    data
+) {
+
+    if (!data.length) {
+
+        messagesBody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        <i class="fa-solid fa-inbox"></i>
+                        <strong>No transmissions yet</strong>
+                        <span>
+                            New portfolio contact messages will appear here.
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    messagesBody.innerHTML =
+        data.map(
+            (item, index) => {
+
+                const safeName =
+                    escapeHTML(
+                        item.name
+                    );
+
+                const safeEmail =
+                    escapeHTML(
+                        item.email
+                    );
+
+                const safeSubject =
+                    escapeHTML(
+                        item.subject
+                    );
+
+                const safeMessage =
+                    escapeHTML(
+                        item.message
+                    );
+
+                const id =
+                    escapeHTML(
+                        item.id ||
+                        item._id ||
+                        String(index)
+                    );
+
+                return `
+                    <tr>
+
+                        <td>
+
+                            <div class="name-cell">
+
+                                <strong>
+                                    ${safeName}
+                                </strong>
+
+                                <div class="email">
+                                    ${safeEmail}
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="subject">
+                                ${safeSubject}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="message-preview">
+                                ${safeMessage}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="time">
+                                ${escapeHTML(
+                                    formatDate(
+                                        item.createdAt
+                                    )
+                                )}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                class="action-btn"
+                                type="button"
+                                data-message-id="${id}"
+                                aria-label="View message"
+                            >
+
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+            }
+        ).join("");
+}
+
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+
+function filterMessages() {
+
+    const query =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+    if (!query) {
+
+        renderMessages(
+            messages
+        );
+
+        return;
+    }
+
+    const filtered =
+        messages.filter(
+            message => {
+
+                const source = [
+                    message.name,
+                    message.email,
+                    message.subject,
+                    message.message
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                return source.includes(
+                    query
+                );
+            }
+        );
+
+    renderMessages(
+        filtered
+    );
+}
+
+searchInput.addEventListener(
+    "input",
+    filterMessages
+);
+
+
+/* ============================================================
+   METRICS
+   ============================================================ */
+
+function updateMetrics() {
+
+    totalMessages.textContent =
+        messages.length;
+
+    const latest =
+        messages[0];
+
+    if (latest?.createdAt) {
+
+        const date =
+            new Date(
+                latest.createdAt
+            );
+
+        lastTransmission.textContent =
+            Number.isNaN(
+                date.getTime()
+            )
+                ? "--"
+                : date.toLocaleDateString(
+                    undefined,
+                    {
+                        month: "short",
+                        day: "numeric"
+                    }
+                );
+    } else {
+
+        lastTransmission.textContent =
+            "--";
+    }
+}
+
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+
+function openModal(
+    message
+) {
+
+    if (
+        !message ||
+        !modalContent
+    ) {
+        return;
+    }
+
+    modalContent.innerHTML = `
+
+        <div class="detail">
+
+            <span class="detail-label">
+                NAME
+            </span>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    message.name
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="detail-label">
+                EMAIL
+            </span>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    message.email
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="detail-label">
+                SUBJECT
+            </span>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    message.subject
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="detail-label">
+                MESSAGE
+            </span>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    message.message
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="detail">
+
+            <span class="detail-label">
+                RECEIVED
+            </span>
+
+            <div class="detail-value">
+                ${escapeHTML(
+                    formatDate(
+                        message.createdAt
+                    )
+                )}
+            </div>
+
+        </div>
+
+
+        ${
+            message.userAgent
+                ? `
+                    <div class="detail">
+
+                        <span class="detail-label">
+                            CLIENT
+                        </span>
+
+                        <div class="detail-value">
+                            ${escapeHTML(
+                                message.userAgent
+                            )}
+                        </div>
+
+                    </div>
+                `
+                : ""
+        }
+
+    `;
+
+    modal.classList.add(
+        "open"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+}
+
+function closeMessageModal() {
+
+    modal.classList.remove(
+        "open"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+}
+
+closeModal.addEventListener(
+    "click",
+    closeMessageModal
+);
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            modal
+        ) {
+            closeMessageModal();
+        }
+    }
+);
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+            closeMessageModal();
+        }
+    }
+);
+
+
+/* ============================================================
+   VIEW MESSAGE
+   ============================================================ */
+
+messagesBody.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(
+                "[data-message-id]"
+            );
+
+        if (!button) {
+            return;
+        }
+
+        const id =
+            button.dataset.messageId;
+
+        const message =
+            messages.find(
+                item =>
+                    String(
+                        item.id ||
+                        item._id
+                    ) ===
+                    String(id)
+            );
+
+        openModal(
+            message
+        );
+    }
+);
+
+
+/* ============================================================
+   REFRESH
+   ============================================================ */
+
+refreshButton.addEventListener(
+    "click",
+    () => {
+        loadMessages();
+    }
+);
+
+
+/* ============================================================
+   AUTO REFRESH
+   ============================================================ */
+
+setInterval(
+    () => {
+        loadMessages();
+    },
+    30000
+);
+
+
+/* ============================================================
+   INITIALIZE
+   ============================================================ */
+
+checkAdminSession();
+
+</script>
+
+</body>
+</html>
